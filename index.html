@@ -13,15 +13,15 @@
 <body>
 <script type="module" src="js/onStart.js"></script>
 <div id="app" class="container mt-4 ml-1 mr-1">
-  <section class="row align-items-stretch" id="name-row" style="gap: 1vw">
-    <div class="row">
+  <section class="align-items-stretch" id="name-row">
+    <div class="row first">
       <!-- First Column (Your Picture) -->
       <div class="col-6 col-md-3 d-flex" id="imagePlaceholder">
         <div class="column-box  d-flex justify-content-center align-items-center">
           <p>
             Your picture
-            <button class="custom-button hoverablePlaceholder" onclick="document.getElementById('fileInput').click()">Upload File</button>
-            <input type="file" id="fileInput" style="display: none">
+            <button class="custom-button hoverablePlaceholder" onclick="document.getElementById('fileInputPfp').click()">Upload File</button>
+            <input type="file" id="fileInputPfp" style="display: none">
           </p>
         </div>
       </div>
@@ -39,8 +39,8 @@
 
       <!-- Third box (Languages) -->
       <div class="col-12 col-md-6 d-flex mt-4 mt-md-0">
-        <div class="column-box text-wrap overflow-auto">
-          <div class="d-flex justify-content-between" id="languagesHeader"><h1 style="display: inline">Languages</h1><button class="addLanguageBtn" id="addLanguage">+</button></div>
+        <div class="column-box text-wrap">
+          <div class="d-flex justify-content-between" id="languagesHeader"><h1 style="display: inline">Languages</h1><button class="addBtn" id="addLanguage">+</button></div>
           <div style="height: calc(100% - 15px - 5vh)" id="languagePlaceholder" class="hoverablePlaceholder">
             <div class="d-flex justify-content-center align-items-center" style="height: 100%" id="addLanguagePlaceholder">
               <p class="text-align-center" style="margin: 0">Press here to add your first language</p>
@@ -52,32 +52,68 @@
 
   </section>
 
-  <section class="row align-items-stretch" id="experience-tools-row">
-    <div class="col d-flex">
-      <div class="column-box text-wrap"><h1>Experience</h1></div>
+  <section class="row align-items-stretch g-3" id="experience-tools-row">
+<!--Experience box-->
+    <div class="col-12 col-md-9 d-flex">
+      <div class="column-box text-wrap">
+        <div class="d-flex justify-content-between"><h1 class="d-inline">Experience</h1><button class="addBtn" id="addExperienceBtn">+</button></div>
+        <div id="experiencePlaceholder" class="hoverablePlaceholder d-flex justify-content-center align-items-center">
+          <p style="margin: 1rem">Press here to add your experience</p>
+        </div>
+      </div>
     </div>
-    <div class="col-3 d-flex">
-      <div class="column-box text-wrap"><h1>Tools</h1></div>
+<!--Tools box-->
+    <div class="col-12 col-md-3 d-flex">
+      <div class="column-box text-wrap">
+        <div class="d-flex justify-content-between">
+          <h1 class="d-inline">Tools</h1><button class="addBtn" id="addToolBtn">+</button>
+        </div>
+        <div class="hoverablePlaceholder" id="addToolArea"><p style="margin: 1rem">Press here to add your tools</p></div>
+        <div id="toolsPlaceholder">
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="row align-items-stretch" id="education-interests-row">
-    <div class="col d-flex">
-      <div class="column-box text-wrap"><h1>Education</h1></div>
+  <section class="row align-items-stretch g-3" id="education-interests-row">
+    <!--education box-->
+    <div class="col-12 col-md-6 d-flex mb-2">
+      <div class="column-box text-wrap">
+        <div class="d-flex justify-content-between"><h1>Education</h1><button class="addBtn" id="addEducation">+</button></div>
+        <div id="educationPlaceholder" class="d-flex align-items-stretch flex-wrap g-1" style="height: 75%">
+          <div class="d-flex justify-content-center align-items-center hoverablePlaceholder" style="margin-bottom: 1rem; height: 100%; box-sizing: border-box">
+            <p class="mb-0">Press here to add about your education</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col d-flex flex-column align-items-stretch gap-3">
-      <div class="column-box text-wrap"><h1>Interests</h1></div>
-      <div  class="column-box black text-wrap">
+
+    <div class="col d-flex flex-column gap-3 mb-2">
+      <!--interests box-->
+      <div class="column-box text-wrap d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 class="d-inline" >Interests</h1>
+          <button class="addBtn" id="addInterest">+</button>
+        </div>
+        <div class="d-flex justify-content-center align-items-stretch hoverablePlaceholder" id="interestsPlaceholder">
+          <p class="text-align-center m-0" id="interestSampleText">Press here to add your first interest</p>
+
+        </div>
+      </div>
+
+      <!--email box-->
+      <div class="column-box black text-wrap">
         <h1>Let's chat! I'm ready to work on exciting projects!</h1>
         <div id="mailPlaceholder"><a class="hoverablePlaceholder dark">Your email here</a></div>
       </div>
     </div>
   </section>
 
+
   <hr>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-<script type='module' src="./js/addListeners.js"></script>
+<script type='module' src="./js/addListeners.js" defer></script>
+<script type="module" src="./js/dragAndDrop.js" defer></script>
 </body>
 </html>

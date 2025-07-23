@@ -14,7 +14,6 @@ img {
     padding: calc(1vw + 1vh);
     background-color: #F0F0F0;
     box-sizing: border-box;
-    height: 100%;
     width: 100%;
     border-radius: 12px;
     transition: all 0.3s;
@@ -37,12 +36,12 @@ img {
     color: #DDDDDD;
     font-size: max(12px, calc(5px + 1vw));
 }
-.addLanguageBtn {
+.addBtn {
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.3s ease-in-out, visibility 0s 0.3s;
 }
-.column-box:hover .addLanguageBtn {
+.column-box:hover .addBtn {
     visibility: visible;
     opacity: 1;
     transition: opacity 0.3s ease-in-out, visibility 0s 0s;
@@ -72,7 +71,8 @@ small.profession {
     margin-bottom: 1vh;
 }
 .langKnowledge span {
-    font-size: max(10px, calc(7px + 1vw)) !important;
+    font-size: max(10px, calc(5px + 1vw)) ;
+    text-wrap: wrap;
     font-weight: 500;
 }
 .langScale {
@@ -99,11 +99,123 @@ small.profession {
 input[type='text'] {
     width: 100%;
 }
-.addLanguageBtn {
-    /*background-color: #28D979;*/
-    /*color: white;*/
+.addBtn {
     font-weight: 600;
     border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transition: all 0.2s; !important;
+}
+.addBtn:hover {
+    background-color: black;
+    color: white;
+}
+.interestsInput {
+    width: 100%;
     height: 100%;
-    aspect-ratio: 1/1;
+    resize: none;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+.interest, .interestsInputSingle {
+    background-color: white;
+    border-radius: 40px;
+    padding: 4px 10px;
+    margin-right: 0.5rem;
+}
+
+#interestsPlaceholder {
+    display: flex;
+    flex-wrap: wrap;  /* Allow interests to wrap onto the next line */
+    gap: 8px;  /* Space between each interest */
+    overflow-y: auto; /* Allows scrolling if there are too many interests */
+}
+.hashtags span {
+    margin-right: 0.5rem;
+}
+.hashtags span:before {
+    content: '#';
+}
+.educationBox {
+    width: 45%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: max(10px, calc(5px + 1vw));
+    margin: 0 5% 5% 0;
+}
+.educationBox.favorite, .educationBox.favorite span {
+    background-color: #28D979;
+    color: white;
+}
+.educationBox .year {
+    font-weight: 500;
+}
+.educationBox .specialty {
+    font-weight: 500;
+    margin: 0;
+}
+.educationBox span {
+    color: #149063;
+    font-size: max(10px, calc(5px + 0.8vw));
+}
+.educationBox .firm {
+    margin: 0;
+    font-size: max(10px, calc(5px + 0.8vw));
+}
+.professionName {
+    margin-bottom: 1rem;
+}
+.occupationTitle {
+    font-size: max(10px, calc(6px + 1vw));
+    font-weight: 600;
+    margin-bottom: 0;
+}
+.occupationSubtitle {
+    color: gray;
+    font-size: max(8px, calc(-2px + 1vw));
+}
+li {
+    font-size: max(8px, calc(-2px + 1vw));
+}
+.experienceBox {
+    padding: 2%;
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+}
+.toolBox {
+    width: 100%;
+    background-color: white;
+    border-radius: 6px;
+}
+.toolboxName {
+    font-size: max(7px, calc(4px + 0.4vw));
+    padding: max(2px, calc((4px + 0.4vw)/3)) max(6px, calc(4px + 0.2vw));
+    background-color: black;
+    color: white;
+    position: relative;
+    top: -0.65rem;
+    border-radius: 59px;
+    white-space: nowrap;
+}
+
+#dropZone.dragover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: #333;
+}
+
+#imagePreviewContainer, .toolIcons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.toolBox {
+    padding: 15px;
+}
+#imagePreviewContainer img, .toolIcons img {
+    width: 40%;
+    border-radius: 16px;
+    object-fit: cover;
 }

@@ -3,12 +3,19 @@ import {
     addLanguagePrompt,
     addNamePrompt,
     addProfessionPrompt,
-    addProfilePicture
+    addProfilePicture,
+    addInterestPrompt,
+    addSingleInterestPrompt,
+    addEducationPrompt,
+    addExpPrompt,
+    addFirstExpFunc,
+    addToolPrompt,
+    addFirstTool
 } from './addElements.js';
 
 const addFirstLanguage = document.getElementById('addLanguagePlaceholder');
-addFirstLanguage.addEventListener('click', addLanguagePrompt);
 const addLanguageBtn = document.getElementById('addLanguage');
+addFirstLanguage.addEventListener('click', addLanguagePrompt);
 addLanguageBtn.addEventListener('click', addLanguagePrompt);
 
 const addName = document.getElementById(`namePlaceholder`);
@@ -22,3 +29,23 @@ fileUpload.addEventListener('input', addProfilePicture);
 
 const addEmail = document.getElementById('mailPlaceholder');
 addEmail.addEventListener('click', addEmailPrompt);
+
+const addFirstInterest = document.getElementById('interestsPlaceholder');
+const addInterestBtn = document.getElementById('addInterest')
+addFirstInterest.addEventListener('click', addInterestPrompt)
+addInterestBtn.addEventListener('click', addSingleInterestPrompt)
+
+const addEducationBtn = document.getElementById('addEducation');
+const addFirstEducation = document.getElementById('educationPlaceholder');
+addEducationBtn.addEventListener('click', addEducationPrompt);
+addFirstEducation.addEventListener('click', addEducationPrompt);
+
+const addExpBtn = document.getElementById('addExperienceBtn');
+const addFirstExp = document.getElementById('experiencePlaceholder');
+addFirstExp.addEventListener('click', addFirstExpFunc);
+addExpBtn.addEventListener('click', addExpPrompt);
+
+const addToolBtn = document.getElementById('addToolBtn');
+const addToolArea = document.getElementById('addToolArea')
+addToolBtn.addEventListener('click', addToolPrompt);
+addToolArea.addEventListener('click', addFirstTool);
