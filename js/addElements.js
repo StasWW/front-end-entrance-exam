@@ -1,4 +1,10 @@
 import {addDragAndDrop} from './dragAndDrop.js';
+import {
+    saveEducation,
+    saveEmail, saveExperienceInnerHTML, saveInterest, saveLanguages, saveName,
+    savePfp, saveProfession, saveTools
+} from "./storage.js";
+
 /**
  * Adds input for the user to select language knowledge
  */
@@ -15,7 +21,7 @@ export const addLanguagePrompt = () => {
     parentNode.classList.remove('hoverablePlaceholder');
     parentNode.removeEventListener('click', addLanguagePrompt);
     const promptHtml = `
-    <div id="addLanguagePrompt" class="d-flex flex-row align-items-center gap-2">
+    <div id="addLanguagePrompt" class="d-flex flex-row align-items-center gap-2 animate__animated animate__fadeIn">
       <input class="form-control" type="text" placeholder="Language name">
       <input class="form-range flex-grow-1" type="range" min="25" max="100" step="25" id="languageRange">
       <button class="btn btn-success" id="confirmButton">Confirm</button>
@@ -38,33 +44,22 @@ export const addLanguagePrompt = () => {
         }
     });
 }
-
-/**
- * Removes event listeners and cleans up language prompt
- */
-const removeLanguageListeners = () => {
-    const addLanguageBtn = document.getElementById('addLanguage');
-    addLanguageBtn.removeEventListener('click', addLanguagePrompt);
-
-    const addLanguagePlaceholder = document.getElementById('addLanguagePlaceholder');
-    addLanguagePlaceholder.removeEventListener('click', addLanguagePrompt);
-}
-
 /**
  * Places html element in place given
  * @param {string} language Language name
  * @param {number | string} progress Progress of language completed
  */
-const addLanguage = (language, progress) => {
+export const addLanguage = (language, progress) => {
     const place = document.getElementById('languagePlaceholder');
     const languageBarHTML = `
-            <div class="langKnowledge d-flex flex-row align-items-center mt-2">
+            <div class="langKnowledge d-flex flex-row align-items-center mt-2 animate__animated animate__fadeIn">
               <span class="col-3">${language}</span>
               <div class="knowledgeBar col h-100">
                 <div style="background-color: #28D979; border-radius: 6px; height: 22px; width: ${progress}%"></div>
               </div>
             </div>`;
     place.insertAdjacentHTML('beforeend', languageBarHTML);
+    saveLanguages(language, progress);
 }
 
 /**
@@ -75,7 +70,7 @@ export const addNamePrompt = () => {
     dummyText.remove();
 
     const parentNode = document.querySelectorAll('#namePlaceholder')[0];
-    const nameInputHTML = `<input type="text" placeholder="Your name here" class="name"/>`;
+    const nameInputHTML = `<input type="text" placeholder="Your name here" class="name animate__animated animate__fadeIn"/>`;
     parentNode.insertAdjacentHTML('beforeend', nameInputHTML);
 
     const nameInputNode = document.querySelectorAll('#namePlaceholder input')[0];
@@ -95,10 +90,11 @@ export const addNamePrompt = () => {
  */
 const addName = (name) => {
     const parentNode = document.getElementById('namePlaceholder');
-    const nameHTML = `<p class="name">${name}</p>`;
+    const nameHTML = `<p class="name animate__animated animate__fadeIn">${name}</p>`;
     parentNode.insertAdjacentHTML(`beforeend`, nameHTML);
     parentNode.classList.remove('hoverablePlaceholder');
     parentNode.removeEventListener('click', addNamePrompt);
+    saveName(name);
 }
 
 /**
@@ -109,7 +105,7 @@ export const addProfessionPrompt = () => {
     dummyText.remove();
 
     const parentNode = document.getElementById('professionPlaceholder');
-    const professionInputHTML = `<input type="text" placeholder="Your profession here" class="profession"/>`;
+    const professionInputHTML = `<input type="text" placeholder="Your profession here" class="profession animate__animated animate__fadeIn"/>`;
     parentNode.insertAdjacentHTML('beforeend', professionInputHTML);
 
     const professionInputNode = document.querySelectorAll('#professionPlaceholder input')[0];
@@ -127,12 +123,13 @@ export const addProfessionPrompt = () => {
  * Renders a profession into predetermined placeholder
  * @param {string} profession name to display
  */
-const addProfession = (profession) => {
+export const addProfession = (profession) => {
     const parentNode = document.getElementById('professionPlaceholder');
-    const nameHTML = `<small class="profession">${profession}</small>`;
+    const nameHTML = `<small class="profession animate__animated animate__fadeIn">${profession}</small>`;
     parentNode.insertAdjacentHTML(`beforeend`, nameHTML);
     parentNode.classList.remove('hoverablePlaceholder');
     parentNode.removeEventListener('click', addProfessionPrompt);
+    saveProfession(profession);
 }
 
 /**
@@ -146,7 +143,8 @@ export const addProfilePicture = () => {
 
         const reader = new FileReader();
         reader.onload = function (e) {
-            imageNode.innerHTML = `<img src="${e.target.result}" alt="Profile picture" style="width: 100%; height: 100%; object-fit: cover;""/>`;
+            imageNode.innerHTML = `<img src="${e.target.result}" class="animate__animated animate__fadeIn" alt="Profile picture" style="width: 100%; height: 100%; object-fit: cover;""/>`;
+            savePfp(e.target.result);
         };
         reader.readAsDataURL(files[0]);
     }
@@ -158,11 +156,11 @@ export const addProfilePicture = () => {
 export const addEmailPrompt = () => {
     const parentNode = document.getElementById('mailPlaceholder');
     parentNode.removeEventListener('click', addEmailPrompt);
-    parentNode.innerHTML = `<input id="emailInput" placeholder="Your email here" type="email" style="color: #DDDDDD; font-size: calc(5px + 1vw); background-color: inherit" />`;
+    parentNode.innerHTML = `<input id="emailInput" class="animate__animated animate__fadeIn" placeholder="Your email here" type="email" style="color: #DDDDDD; font-size: calc(5px + 1vw); background-color: inherit" />`;
 
     const emailInput = document.getElementById('emailInput');
     emailInput.addEventListener('blur', () => {
-        if (!emailInput.validity.valid) {
+        if (!emailInput.validity.valid || !emailInput.value) {
             alert("Please enter a valid email address.");
         } else {
             addEmail(emailInput.value);
@@ -174,9 +172,10 @@ export const addEmailPrompt = () => {
  * Adds email
  * @param {string} email email
  */
-const addEmail = (email) => {
+export const addEmail = (email) => {
     const parentNode = document.getElementById('mailPlaceholder');
-    parentNode.innerHTML = `<a href="mailto:${email}">${email}</a>`;
+    parentNode.innerHTML = `<a href="mailto:${email}" class="animate__animated animate__fadeIn">${email}</a>`;
+    saveEmail(email);
 }
 /**
  * Adds text area to input interests
@@ -185,7 +184,7 @@ export const addInterestPrompt = () => {
     const parentNode = document.getElementById('interestsPlaceholder');
     parentNode.classList.remove('hoverablePlaceholder', 'justify-content-center', 'align-items-center');
     parentNode.removeEventListener('click', addInterestPrompt);
-    parentNode.innerHTML = `<textarea class="interestsInput" id="interestTextarea"></textarea>`;
+    parentNode.innerHTML = `<textarea class="interestsInput animate__animated animate__fadeIn" id="interestTextarea"></textarea>`;
 
     const textArea = document.getElementById('interestTextarea');
     textArea.addEventListener('blur', () => {
@@ -194,6 +193,7 @@ export const addInterestPrompt = () => {
                 if (interest) addInterest(interest);
             }
             textArea.remove();
+            saveInterest();
         } else {
             alert(`You must be interested in something!`);
         }
@@ -211,7 +211,7 @@ export const addSingleInterestPrompt = () => {
     const parentNode = document.getElementById('interestsPlaceholder');
     parentNode.classList.remove('hoverablePlaceholder', 'justify-content-center', 'align-items-center');
     parentNode.removeEventListener('click', addInterestPrompt);
-    parentNode.insertAdjacentHTML('beforeend', `<input type="text" style="width: 2rem" class="interestsInputSingle" id="interestSingleInput" />`);
+    parentNode.insertAdjacentHTML('beforeend', `<input type="text" style="width: 2rem" class="interestsInputSingle animate__animated animate__fadeIn" id="interestSingleInput" />`);
 
     const textInput = document.getElementById('interestSingleInput');
     textInput.addEventListener('input', () => {
@@ -222,6 +222,7 @@ export const addSingleInterestPrompt = () => {
         if (textInput.value) {
             addInterest(textInput.value);
             textInput.remove();
+            saveInterest();
         }
         else alert('You must have an interest!')
     })
@@ -231,7 +232,7 @@ export const addSingleInterestPrompt = () => {
  * @param {string} interest interest
  * */
 const addInterest = (interest) => {
-    const interestHTML = `<span class="interest">${interest}</span>`;
+    const interestHTML = `<span class="interest animate__animated animate__fadeIn">${interest}</span>`;
     const interestPlaceholder = document.getElementById('interestsPlaceholder');
     interestPlaceholder.insertAdjacentHTML('beforeend', interestHTML);
 }
@@ -248,7 +249,7 @@ export const addEducationPrompt = () => {
     const dummyChild = document.querySelectorAll('#educationPlaceholder .hoverablePlaceholder')[0];
     if (dummyChild) dummyChild.remove();
 
-    const educationInput = `<form class="educationBox d-flex justify-content-between flex-column" id="educationInput">
+    const educationInput = `<form class="educationBox d-flex justify-content-between flex-column animate__animated animate__fadeIn" id="educationInput">
                                     <div class="d-flex justify-content-between align-items-center"><input class="year" type="text" id="yearStart" required style="margin-right: 1rem; width: 45%; display: inline" placeholder="2020"><span style="margin-right: 1rem">&mdash;</span><input class="year" type="text" id="yearEnd" placeholder="2025" style="width: 45%; display: inline"></div>
                                     <div class="professionName">
                                       <input class="specialty" id="specialtyInput" type="text" placeholder="Your position" style="margin-top: 1rem" required />
@@ -272,6 +273,8 @@ export const addEducationPrompt = () => {
         addEducation(specialty, hashtags, firm, yearStart, yearEnd);
 
         educationInputNode.remove();
+
+        saveEducation();
     })
 }
 /**
@@ -285,8 +288,8 @@ export const addEducationPrompt = () => {
 const addEducation = (profession, skills, firm, yearStart, yearEnd) => {
     const yearsString = yearStart + (yearEnd && yearStart !== yearEnd ? ` - ${yearEnd}` : '');
     const hashtags = skills.split(' ').map( word => `<span>${word}</span>` ).join('');
-    const educationHTML = `<div class="educationBox d-flex justify-content-between flex-column">
-                                    <div class="d-flex justify-content-between"><p class="year d-inline">${yearsString}</p><svg style="aspect-ratio: 1/1; height: 100%" height="11" width="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M2.75 0.807373C1.99375 0.807373 1.32 1.12388 0.81125 1.61929C0.31625 2.1147 0 2.78901 0 3.55965C0 4.31653 0.31625 4.99083 0.81125 5.5L5.5 10.1926L10.1887 5.5C10.6838 5.0046 11 4.33029 11 3.55965C11 2.80277 10.6838 2.12847 10.1887 1.61929C9.69375 1.12388 9.02 0.807373 8.25 0.807373C7.49375 0.807373 6.82 1.12388 6.31125 1.61929C5.81625 2.1147 5.5 2.78901 5.5 3.55965C5.5 2.80277 5.18375 2.12847 4.68875 1.61929C4.19375 1.12388 3.52 0.807373 2.75 0.807373Z" fill="#F6ED1E"/> </svg></div>
+    const educationHTML = `<div class="educationBox d-flex justify-content-between flex-column animate__animated animate__fadeIn">
+                                    <div class="d-flex justify-content-between"><p class="year d-inline">${yearsString}</p></div>
                                     <div class="professionName">
                                       <p class="specialty">${profession}</p>
                                       <div class="hashtags d-flex align-items-stretch flex-wrap g-1">
@@ -319,12 +322,13 @@ export const addExpPrompt = () => {
         addExp(startDate, endDate, occupation, occupationSubtitle, responsibilities);
         document.getElementById('addExpBtn').removeEventListener('click', handleAddExp)
         document.getElementById('formExp').remove();
+        saveExperienceInnerHTML();
     };
     const date = new Date();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    const expPrompt = `<form class="experienceBox" id="formExp">
+    const expPrompt = `<form class="experienceBox animate__animated animate__fadeIn" id="formExp">
           <div><input type="date" id="startDate" max="${year}-${month}-${day}"> - <input type="date" id="endDate" max="${year}-${month}-${day}"></div>
           <div class="d-flex">
             <div class="occupation col-4">
@@ -355,7 +359,7 @@ export const addFirstExpFunc = () => {
 /**
  * */
 const addExp = (start, end, occupation, occupationSubtitle, responsibilities) => {
-    const formatDate = (date) => {
+    const formatDate = (date, canBePresent) => {
         const dateNow = new Date();
         const yearNow = dateNow.getFullYear();
         const monthNow = dateNow.getMonth();
@@ -365,12 +369,13 @@ const addExp = (start, end, occupation, occupationSubtitle, responsibilities) =>
         const month = dateGiven.getMonth();
 
         const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        return yearNow === year && monthNow === month ? 'present' : `${months[month]}. ${year}`
+        return yearNow === year && monthNow === month && canBePresent ? 'present' : `${months[month]}. ${year}`
     }
 
+
     const responsibilitiesFormatted = responsibilities.map( sentence => `<li>${sentence}</li>` ).join('')
-    const expHTML = `<div class="experienceBox">
-          <p>${formatDate(start)} - ${formatDate(end)}</p>
+    const expHTML = `<div class="experienceBox animate__animated animate__fadeIn">
+          <p>${formatDate(start, false)} - ${formatDate(end, true)}</p>
           <div class="d-flex">
             <div class="occupation col-4">
               <p class="occupationTitle">${occupation}</p>
@@ -402,7 +407,7 @@ export const addToolPrompt = () => {
         hintNode.remove();
     }
 
-    const groupItem = `<div class="toolBox d-flex flex-column align-items-center hoverablePlaceholder" id="dropZone">
+    const groupItem = `<div class="toolBox d-flex flex-column align-items-center hoverablePlaceholder animate__animated animate__fadeIn" id="dropZone">
     <input class="toolboxName d-inline-block" type="text" placeholder="Group Name" id="groupNameInput"/>
     <p class="m-1 mt-5 mb-5" >Drag and drop icon of your tools here</p>
     <div id="imagePreviewContainer" class="d-flex justify-content-between"></div>
@@ -439,10 +444,11 @@ export const addToolPrompt = () => {
         }
         document.getElementById('dropZone').remove();
         addTools(groupName, images);
+        saveTools();
     })
 }
 const addTools = (groupName, imagesHtml) => {
-    const groupHTML = `<div class="toolBox d-flex flex-column align-items-center">
+    const groupHTML = `<div class="toolBox d-flex flex-column align-items-center animate__animated animate__fadeIn">
     <span class="toolboxName d-inline-block">${groupName}</span>
     <div class="d-flex justify-content-between toolIcons">${imagesHtml}</div>
 </div>`
