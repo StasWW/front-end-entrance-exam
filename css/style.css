@@ -146,12 +146,32 @@ input[type='text'] {
     font-size: max(10px, calc(5px + 1vw));
     margin: 0 5% 5% 0;
 }
-.educationBox.favorite, .educationBox.favorite span {
+.educationBox.favorite, .educationBox.favorite span, .experienceBox.favorite,.experienceBox.favorite small {
     background-color: #28D979;
-    color: white;
+    color: white; !important;
+}
+.mostRecent {
+    display: none;
+}
+.favorite .mostRecent {
+    height: 100%;
+    border-radius: 59px;
+    padding: 2px 0.5rem;
+    display: inline;
+    background-color: #7E731266;
+    color: #DDF163;
+    font-size: max(8px, calc(4px + 0.7vw));
+}
+.heartIcon {
+    display: none;
+}
+div.favorite .heartIcon {
+    display: inline;
+    height: 2.5vh;
 }
 .educationBox .year {
     font-weight: 500;
+    margin-bottom: 0;
 }
 .educationBox .specialty {
     font-weight: 500;

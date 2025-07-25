@@ -11,4 +11,3 @@ function adjustColumnHeights() {
 
 window.addEventListener('DOMContentLoaded', adjustColumnHeights);
 window.addEventListener('resize', adjustColumnHeights);
-loadOnStartup();

@@ -1,16 +1,23 @@
 document.getElementById('downloadPdfBtn').addEventListener('click', () => {
     const element = document.getElementById('toPrint');
 
+    // Force reflow to ensure content is stable
+    document.body.offsetHeight;
+
     const opt = {
-        margin:       [0, 0, 0, 0],  // Set margins
-        filename:     'resume.pdf',   // PDF filename
-        image:        { type: 'jpeg', quality: 0.98 },  // Image format and quality
+        margin: [0.5, 0.5, 0.5, 0.5],  // Margins for the PDF
+        filename: 'resume.pdf',         // Output PDF filename
+        image: { type: 'jpeg', quality: 0.98 },  // Set image quality for embedded images
         jsPDF: {
-            unit: 'in',
-            format: 'a4',            // Paper format: A4 (standard)
-            orientation: 'portrait', // Portrait orientation
-            compress: true,          // Compress content to reduce file size
-            pageBreak: true          // Allow automatic page breaks
+            unit: 'in',                 // Units to use in the PDF (inches)
+            format: 'a4',               // A4 paper format
+            orientation: 'portrait',    // Portrait orientation
+            compress: true,             // Enable compression for smaller file sizes
+            pageBreak: true             // Enable automatic page breaks
+        },
+        html2canvas: {
+            logging: true,              // Enable logging to debug issues
+            ignoreElements: (el) => el.classList.contains('addBtn') // Ignore addBtn buttons
         }
     };
 

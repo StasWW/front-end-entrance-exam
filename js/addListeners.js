@@ -12,6 +12,7 @@ import {
     addToolPrompt,
     addFirstTool
 } from './addElements.js';
+import { loadOnStartup } from "./storage.js";
 
 const addFirstLanguage = document.getElementById('addLanguagePlaceholder');
 const addLanguageBtn = document.getElementById('addLanguage');
@@ -49,3 +50,5 @@ const addToolBtn = document.getElementById('addToolBtn');
 const addToolArea = document.getElementById('addToolArea')
 addToolBtn.addEventListener('click', addToolPrompt);
 if (addToolArea) addToolArea.addEventListener('click', addFirstTool);
+
+loadOnStartup();

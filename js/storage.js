@@ -14,7 +14,7 @@ export const loadOnStartup = () => {
     if (profession) loadProfession(profession);
 
     const languages = localStorage.getItem('languages');
-    if (languages) loadLanguages(JSON.parse(languages));
+    if (languages) loadLanguages(languages);
 
     const experience = localStorage.getItem('experience');
     if (experience) loadExperience(experience);
@@ -38,20 +38,9 @@ export const saveEmail = (email) => {
 export const savePfp = (pfpSrc) => {
     localStorage.setItem('pfpPicture', pfpSrc);
 }
-export const saveLanguages = (language, progress) => {
-    const prevState = localStorage.getItem('languages');
-    let currState = [];
-    if (prevState) {
-        const prevStateJSON = JSON.parse(prevState);
-        currState = [...prevStateJSON,
-        {
-            language,
-            progress,
-        }]
-    } else {
-        currState = [{ 'name': language, 'progress': progress }];
-    }
-    localStorage.setItem('languages', JSON.stringify(currState));
+export const saveLanguages = () => {
+    const place = document.getElementById('languagePlaceholder');
+    localStorage.setItem('languages', place.innerHTML);
 }
 export const saveName = (name) => {
     localStorage.setItem('name', name);
@@ -72,7 +61,8 @@ export const saveProfession = (profession) => {
     localStorage.setItem('profession', profession);
 }
 export const saveTools = () => {
-    localStorage.setItem('tools', document.getElementById('toolsPlaceholder').innerHTML);
+    const parentNode = document.getElementById('toolsPlaceholder');
+    localStorage.setItem('tools', parentNode.innerHTML);
 }
 
 const loadEducation = (education) => {
@@ -104,22 +94,10 @@ const loadProfession = (profession) => {
 const loadEmail = (email) => {
     document.getElementById('mailPlaceholder').innerHTML = `<a href="mailto:${email}" class="animate__animated animate__fadeIn">${email}</a>`;
 }
-const loadLanguages = (langArr) => {
+const loadLanguages = (langHTML) => {
     const parentNode = document.getElementById('languagePlaceholder');
     parentNode.classList.remove('hoverablePlaceholder');
-    parentNode.innerHTML = '';
-
-    for (let languageObj of langArr) {
-        const place = document.getElementById('languagePlaceholder');
-        const languageBarHTML = `
-            <div class="langKnowledge d-flex flex-row align-items-center mt-2 animate__animated animate__fadeIn">
-              <span class="col-3">${languageObj['language']}</span>
-              <div class="knowledgeBar col h-100">
-                <div style="background-color: #28D979; border-radius: 6px; height: 22px; width: ${languageObj['progress']}%"></div>
-              </div>
-            </div>`;
-        place.insertAdjacentHTML('beforeend', languageBarHTML);
-    }
+    parentNode.innerHTML = langHTML;
 }
 const loadInterests = (interests) => {
     const parentNode = document.getElementById('interestsPlaceholder');

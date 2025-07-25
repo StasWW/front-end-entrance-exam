@@ -38,6 +38,8 @@ export const addLanguagePrompt = () => {
             addLanguage(name, percentage);
             const promptNode = document.getElementById('addLanguagePrompt');
             promptNode.remove();
+
+            saveLanguages();
         }
         else {
             alert(`Language field can't be empty!`);
@@ -59,7 +61,6 @@ export const addLanguage = (language, progress) => {
               </div>
             </div>`;
     place.insertAdjacentHTML('beforeend', languageBarHTML);
-    saveLanguages(language, progress);
 }
 
 /**
@@ -289,7 +290,10 @@ const addEducation = (profession, skills, firm, yearStart, yearEnd) => {
     const yearsString = yearStart + (yearEnd && yearStart !== yearEnd ? ` - ${yearEnd}` : '');
     const hashtags = skills.split(' ').map( word => `<span>${word}</span>` ).join('');
     const educationHTML = `<div class="educationBox d-flex justify-content-between flex-column animate__animated animate__fadeIn">
-                                    <div class="d-flex justify-content-between"><p class="year d-inline">${yearsString}</p></div>
+                                    <div class="d-flex justify-content-between align-items-center"><p class="year d-inline">${yearsString}</p><svg viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="heartIcon">
+<path d="M2.75 0.807373C1.99375 0.807373 1.32 1.12388 0.81125 1.61929C0.31625 2.1147 0 2.78901 0 3.55965C0 4.31653 0.31625 4.99083 0.81125 5.5L5.5 10.1926L10.1887 5.5C10.6838 5.0046 11 4.33029 11 3.55965C11 2.80277 10.6838 2.12847 10.1887 1.61929C9.69375 1.12388 9.02 0.807373 8.25 0.807373C7.49375 0.807373 6.82 1.12388 6.31125 1.61929C5.81625 2.1147 5.5 2.78901 5.5 3.55965C5.5 2.80277 5.18375 2.12847 4.68875 1.61929C4.19375 1.12388 3.52 0.807373 2.75 0.807373Z" fill="#F6ED1E"/>
+</svg>
+</div>
                                     <div class="professionName">
                                       <p class="specialty">${profession}</p>
                                       <div class="hashtags d-flex align-items-stretch flex-wrap g-1">
@@ -302,6 +306,11 @@ const addEducation = (profession, skills, firm, yearStart, yearEnd) => {
     const parentNode = document.getElementById('educationPlaceholder');
     parentNode.insertAdjacentHTML('beforeend', educationHTML);
 
+    const boxes = document.querySelectorAll('div.educationBox');
+    const lastChild = boxes[boxes.length - 1]
+    lastChild.addEventListener('dblclick', () => {
+        lastChild.classList.contains('favorite') ? lastChild.classList.remove('favorite') : lastChild.classList.add('favorite');
+    })
 }
 /**
  * */
@@ -375,7 +384,7 @@ const addExp = (start, end, occupation, occupationSubtitle, responsibilities) =>
 
     const responsibilitiesFormatted = responsibilities.map( sentence => `<li>${sentence}</li>` ).join('')
     const expHTML = `<div class="experienceBox animate__animated animate__fadeIn">
-          <p>${formatDate(start, false)} - ${formatDate(end, true)}</p>
+          <div class="d-flex justify-content-between"><p class="d-inline">${formatDate(start, false)} - ${formatDate(end, true)}</p><span class="mostRecent animate__animated animate__fadeIn">Most Recent</span></div>
           <div class="d-flex">
             <div class="occupation col-4">
               <p class="occupationTitle">${occupation}</p>
@@ -387,7 +396,13 @@ const addExp = (start, end, occupation, occupationSubtitle, responsibilities) =>
           </div>
           </div>  `;
     const parentNode = document.getElementById('experiencePlaceholder');
-    parentNode.insertAdjacentHTML('beforeend', expHTML)
+    parentNode.insertAdjacentHTML('beforeend', expHTML);
+
+    const boxes = document.querySelectorAll('div.experienceBox');
+    const lastChild = boxes[boxes.length - 1]
+    lastChild.addEventListener('dblclick', () => {
+        lastChild.classList.contains('favorite') ? lastChild.classList.remove('favorite') : lastChild.classList.add('favorite');
+    })
 }
 export const addFirstTool = () => {
     const callerNode = document.getElementById('addToolArea');
@@ -444,7 +459,7 @@ export const addToolPrompt = () => {
         }
         document.getElementById('dropZone').remove();
         addTools(groupName, images);
-        saveTools();
+        saveTools(groupName, images);
     })
 }
 const addTools = (groupName, imagesHtml) => {
